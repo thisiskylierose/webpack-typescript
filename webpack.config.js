@@ -19,5 +19,16 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'initial',
+        }
+      }
+    }
   }
 };
