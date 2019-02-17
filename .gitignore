@@ -1,0 +1,9 @@
+# Logs
+*.log
+
+# Build directories
+dist/*
+!dist/.gitkeep
+
+# Dependency directories
+node_modules/
