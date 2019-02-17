@@ -1,16 +1,17 @@
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+
+// https://florianbrinkmann.com/en/5351/webpack-sass-multiple-entry-points/
 
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
-  entry: [
-    './src/main.ts',
-    './src/main.scss',
-    './src/test.scss'
-  ],
+  entry: {
+    main: ['./src/scripts/main.ts', './src/styles/main.scss'],
+    test: ['./src/scripts/test.ts', './src/styles/test.scss']
+  },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
   },
   resolve: {
@@ -20,18 +21,24 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true
+          }
+        }
       },
       {
         test: /\.scss$/,
+        exclude: /node_modules/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader
+            loader: 'file-loader',
+            options: {
+              name: '[name].css',
+            }
           },
-          {
-						loader: 'css-loader'
-					},
           {
 						loader: 'sass-loader'
 					}
@@ -40,9 +47,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: '[name].bundle.css',
-      chunkFilename: '[name].bundle.css'
+    new CleanWebpackPlugin(['dist'], {
+      exclude: ['.gitkeep']
     })
   ],
   optimization: {
@@ -50,9 +56,10 @@ module.exports = {
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
+          name: 'vendors',
           chunks: 'all',
-        }
+          reuseExistingChunk: true
+        },
       }
     }
   }
