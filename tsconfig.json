@@ -1,11 +1,16 @@
 {
-    "compilerOptions": {
-      "outDir": "./dist/",
-      "sourceMap": true,
-      "noImplicitAny": true,
-      "module": "commonjs",
-      "target": "es5",
-      "jsx": "react",
-      "allowJs": true
-    }
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": "src",
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "removeComments": true,
+    "noImplicitUseStrict": true,
+    "lib": ["es6", "dom"],
+    "types": ["node"]
   }
+}
